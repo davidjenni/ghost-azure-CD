@@ -1,0 +1,34 @@
+{
+  "name": "ghost-azure",
+  "version": "0.1.0",
+  "description": "Bootstrap installer for Ghost in an Azure Web App",
+  "main": "install.js",
+  "scripts": {
+    "lint": "node node_modules/eslint/bin/eslint.js */*.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidjenni/ghost-azure.git"
+  },
+  "keywords": [
+    "ghost",
+    "CMS",
+    "Azure",
+    "nodejs"
+  ],
+  "author": "David Jenni",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidjenni/ghost-azure/issues"
+  },
+  "homepage": "https://github.com/davidjenni/ghost-azure#readme",
+  "dependencies": {
+    "fs-extra": "^6.0.1",
+    "request": "^2.87.0",
+    "yarn": "^1.7.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1"
+  }
+}
