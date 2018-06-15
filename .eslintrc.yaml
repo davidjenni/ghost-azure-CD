@@ -1,0 +1,16 @@
+extends: eslint:recommended
+parser: esprima
+parserOptions:
+  ecmaVersion: 2015
+  sourceType: module
+  ecmaFeatures:
+    impliedStrict: true
+env:
+  node: true
+rules:
+  brace-style: [ error, 1tbs ]
+  indent: [ error, 4 ]
+  keyword-spacing: error
+  no-var: error
+globals:
+  expect: true
