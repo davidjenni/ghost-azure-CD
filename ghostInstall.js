@@ -27,6 +27,7 @@ class GhostInstall {
         }
         let ghostZip = await this.downloadGhost(version);
         await this.unzipGhost(ghostZip, this._installDir);
+        await this.yarnInstall(this._installDir);
     }
 
     async getLatestGhostVersion() {
@@ -62,12 +63,23 @@ class GhostInstall {
         this._log.info(`Unzipped app into ${installDir}`);
     }
 
+    async yarnInstall(installDir) {
+        this._log.info(`yarn install in ${installDir}...`);
+        let spew = await this._yarn('install', '--no-progress', '--production', '--non-interactive', '--cwd', installDir);
+        this._log.info(spew.stdout);
+    }
+
     _node(args) {
         return this._exec(this._nodeExe, false, args);
     }
 
     _npm(...args) {
         return this._exec(this._npmExe,  true, args);
+    }
+
+    _yarn(...args) {
+        args.unshift(path.join('node_modules', 'yarn', 'bin', 'yarn.js'));
+        return this._exec(this._nodeExe,  true, args);
     }
 
     async _exec(exe, useShell, args) {

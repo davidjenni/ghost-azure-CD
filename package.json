@@ -4,7 +4,7 @@
   "description": "Bootstrap installer for Ghost in an Azure Web App",
   "main": "install.js",
   "scripts": {
-    "lint": "node node_modules/eslint/bin/eslint.js */*.js",
+    "lint": "node node_modules/eslint/bin/eslint.js --quiet *.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
