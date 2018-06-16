@@ -7,7 +7,7 @@
             "name": "Launch Program",
             "program": "${workspaceFolder}/install.js",
             "env": {
-                "NODE_ENV": "production"
+                // "NODE_ENV": "production"
             }
         }
     ]

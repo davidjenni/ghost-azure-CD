@@ -5,10 +5,10 @@ const fs = require('fs-extra');
 const path = require('path');
 
 const defaultTheme = path.join('themes', 'casper');
+const nodeEnv = process.env.NODE_ENV;
 
 async function prepareGhost(repoDir, appDir, log) {
     let environments = [ 'development', 'production' ];
-    const nodeEnv = process.env.NODE_ENV;
     if (nodeEnv && environments.indexOf(nodeEnv) < 0) {
         environments.unshift(nodeEnv);
     }
