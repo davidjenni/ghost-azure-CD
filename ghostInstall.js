@@ -8,6 +8,12 @@ const util = require('util');
 const execFile = util.promisify(cproc.execFile);
 const extract = util.promisify(require('extract-zip'));
 
+async function  installGhost(installDir, log, version = 'latest') {
+    const ghostInstall = new GhostInstall(installDir, log);
+    await ghostInstall.run(version);
+}
+
+module.exports = installGhost;
 
 class GhostInstall {
     constructor(installDir, log) {
@@ -17,7 +23,7 @@ class GhostInstall {
         this._npmExe = 'npm';
     }
 
-    async run(version = 'latest') {
+    async run(version) {
         // TODO: for rollback, don't wipe dir but instead rename
         this._log.info(`Installing ghost into: ${this._installDir}`);
         await fs.emptyDir(this._installDir);
@@ -43,7 +49,7 @@ class GhostInstall {
         let destStream = fs.createWriteStream(ghostZip);
         await new Promise((resolve, reject) => {
             request(ghostDownload)
-                .on('end', (i) => {
+                .on('end', () => {
                     resolve();
                 })
                 .on('error', err => {
@@ -86,5 +92,3 @@ class GhostInstall {
         return execFile(exe, args, {shell: useShell});
     }
 }
-
-module.exports = GhostInstall

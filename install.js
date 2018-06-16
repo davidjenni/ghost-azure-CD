@@ -2,14 +2,19 @@
 const log = require('loglevel');
 const path = require('path');
 
+const thisDir = __dirname;
+const appDir = path.resolve('./app');
+
 log.setLevel('info');
-const GhostInstall = require('./ghostInstall');
 
-let bootstrap = new GhostInstall(path.resolve('./app'), log);
+const installGhost = require('./ghostInstall');
+const prepareGhost = require('./ghostPrepare');
 
-bootstrap.run().then(
-    () =>
-        log.info('Completed'),
-    (err) => {
-        log.error(`Error: ${err}`);
-    });
+installGhost(appDir, log)
+    .then(async () => prepareGhost(thisDir, appDir, log))
+    .then(
+        () =>
+            log.info('Completed'),
+        (err) => {
+            log.error(`Error: ${err}`);
+        });
