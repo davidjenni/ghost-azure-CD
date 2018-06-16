@@ -81,8 +81,10 @@ class GhostConfig {
     }
 
     async ensureDefaultTheme() {
-        await fs.copy(path.join(this._appDir, 'content', defaultTheme),
-            path.join(this._config.paths.contentPath, defaultTheme));
+        const themeDir = path.join(this._appDir, 'content', defaultTheme);
+
+        await fs.copy(themeDir, path.join(this._config.paths.contentPath, defaultTheme));
+        this._log.info(`Copied default theme to ${themeDir}`);
     }
 
     async ensureDbInitialized() {
@@ -97,7 +99,9 @@ class GhostConfig {
                     knexMigratorFilePath: this._appDir
                 });
                 await knexMigrator.init();
-                return;
+                this._log.info(`Created new sqlite3 DB as: ${filename}`);
+            } else {
+                this._log.info(`Not touching existing sqlite3 DB ${filename}`);
             }
         }
     }
