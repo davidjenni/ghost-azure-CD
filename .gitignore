@@ -1,3 +1,6 @@
 /app/
 /mycontent/
 /node_modules/
+# only edit the site config files under /config/
+# copies in root folder are copies that the ghost server reads
+/config.*.json

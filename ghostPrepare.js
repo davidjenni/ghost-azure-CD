@@ -14,7 +14,7 @@ async function prepareGhost(repoDir, appDir, log) {
     }
 
     for (let env of environments) {
-        const configFile = path.join(repoDir, `config.${env}.json`);
+        const configFile = path.join(repoDir, 'config', `config.${env}.json`);
         if (!fs.existsSync(configFile)) {
             if (env !== nodeEnv) {
                 continue;
@@ -23,7 +23,7 @@ async function prepareGhost(repoDir, appDir, log) {
             throw Error(`NODE_ENV is set as '${nodeEnv}' but cannot find corresponding file '${configFile}'`);
         }
         log.info(`Configuring ghost for '${env}'`)
-        const ghostConfig = new GhostConfig(appDir, configFile, log);
+        const ghostConfig = new GhostConfig(repoDir, appDir, configFile, log);
         await ghostConfig.run();
     }
 }
@@ -31,7 +31,8 @@ async function prepareGhost(repoDir, appDir, log) {
 module.exports = prepareGhost;
 
 class GhostConfig {
-    constructor(appDir, configFile, log) {
+    constructor(rootDir, appDir, configFile, log) {
+        this._rootDir = rootDir;
         this._appDir = appDir;
         this._configFile = configFile;
         this._log = log;
@@ -39,15 +40,16 @@ class GhostConfig {
 
     async run() {
         this._config = await fs.readJSON(this._configFile);
-        let jsonModified = false;
-        jsonModified |= await this.ensureContentPath()
-        jsonModified |= this.ensurePortSync(process.env.PORT);
 
-        if (jsonModified) {
-            await fs.writeFile(this._configFile, JSON.stringify(this._config, null, 2));
-            this._log.info(`Updated config file: ${this._configFile}`);
-        }
+        // group all steps that modify/update the config.*.json file first:
+        await this.ensureContentPath()
+        this.ensurePortSync(process.env.PORT);
 
+        const appConfigFile = path.join(this._rootDir, path.basename(this._configFile));
+        await fs.writeFile(appConfigFile, JSON.stringify(this._config, null, 2));
+        this._log.info(`Updated config file: ${appConfigFile}`);
+
+        // group steps that only read from configuration:
         await this.ensureDbInitialized();
         await this.ensureDefaultTheme();
     }
