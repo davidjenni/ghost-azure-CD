@@ -13,4 +13,8 @@ rules:
   keyword-spacing: error
   no-var: error
 globals:
-  expect: true
+  Promise: true
+overrides:
+  files: [ '**/*.js' ]
+  # ignore ghost and content files once unzipped and bootstrapped (local dev)
+  excludedFiles: [ 'app/**/*.js', 'mycontent/**/*.js' ]

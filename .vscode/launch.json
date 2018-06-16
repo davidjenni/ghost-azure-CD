@@ -5,7 +5,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/${relativeFile}",
+            "program": "${workspaceFolder}/install.js",
             "env": {
                 "NODE_ENV": "production"
             }

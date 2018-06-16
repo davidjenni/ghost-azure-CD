@@ -24,7 +24,9 @@
   },
   "homepage": "https://github.com/davidjenni/ghost-azure#readme",
   "dependencies": {
+    "extract-zip": "^1.6.7",
     "fs-extra": "^6.0.1",
+    "loglevel": "^1.6.1",
     "request": "^2.87.0",
     "yarn": "^1.7.0"
   },

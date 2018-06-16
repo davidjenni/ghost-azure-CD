@@ -1,13 +1,15 @@
 'use strict'; 
-/* eslint no-console: "off" */
+const log = require('loglevel');
+const path = require('path');
 
-const GhostBootstrap = require('./GhostBootstrap');
+log.setLevel('info');
+const GhostInstall = require('./ghostInstall');
 
-let bootstrap = new GhostBootstrap();
+let bootstrap = new GhostInstall(path.resolve('./app'), log);
 
 bootstrap.run().then(
     () =>
-        console.log('Completed'),
+        log.info('Completed'),
     (err) => {
-        console.log(`Error: ${err}`);
+        log.error(`Error: ${err}`);
     });
