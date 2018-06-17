@@ -18,7 +18,7 @@ log.info(`nodejs env vars: NODE_ENV=${process.env.NODE_ENV}, PORT=${process.env.
 const installGhost = require('./ghostInstall');
 const prepareGhost = require('./ghostPrepare');
 
-installGhost(appDir, yargs.node, log)
+installGhost(appDir, yargs.nodeExe, log)
     .then(async () => prepareGhost(thisDir, appDir, log))
     .then(
         () =>
