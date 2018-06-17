@@ -78,6 +78,8 @@ IF DEFINED KUDU_SELECT_NODE_VERSION_CMD (
   SET NPM_CMD=npm
   SET NODE_EXE=node
 )
+echo node version
+node --version
 
 goto :EOF
 
@@ -91,7 +93,7 @@ echo Handling node.js deployment.
 :: 1. robocopy
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   :: robocopy exit code 0-7 indicate (mostly) ok copy, see https://ss64.com/nt/robocopy-exit.html
-  call :ExecuteCmd robocopy "%DEPLOYMENT_SOURCE%" "%DEPLOYMENT_TARGET%" /s /purge /xd mycontent /xd .git /xd node_modules
+  call :ExecuteCmd robocopy "%DEPLOYMENT_SOURCE%" "%DEPLOYMENT_TARGET%" /s /purge /nfl /njh /xd mycontent /xd .git /xd node_modules
   IF !ERRORLEVEL! GEQ 8 goto error
 )
 
@@ -101,8 +103,6 @@ call :SelectNodeVersion
 :: 3. Install npm packages and launch Ghost installer:
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
-  echo NODE_EXE is %NODE_EXE%
-  echo NPM_CMD is  %NPM_CMD%
 
   call :ExecuteCmd !NPM_CMD! install --production
   IF !ERRORLEVEL! NEQ 0 goto error
