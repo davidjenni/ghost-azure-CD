@@ -8,11 +8,8 @@ const defaultTheme = path.join('themes', 'casper');
 const nodeEnv = process.env.NODE_ENV;
 
 async function prepareGhost(repoDir, appDir, log) {
-    let environments = [ 'development', 'production' ];
-    if (nodeEnv && environments.indexOf(nodeEnv) < 0) {
-        // single environment if explicitly requested via NODE_ENV
-        environments = [ nodeEnv ];
-    }
+    // single environment if explicitly requested via NODE_ENV
+    let environments = nodeEnv ? [ nodeEnv ] : [ 'development', 'production' ];
 
     for (let env of environments) {
         const configFile = path.join(repoDir, 'config', `config.${env}.json`);

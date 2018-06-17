@@ -4,10 +4,20 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "Launch install script",
             "program": "${workspaceFolder}/install.js",
             "env": {
-                // "NODE_ENV": "production"
+                "NODE_ENV": "production"
+            }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch ghost via loader",
+            "program": "${workspaceFolder}/_iisnodeLoader.js",
+            "env": {
+                // "NODE_ENV": "production",
+                "PORT": "2369"
             }
         }
     ]

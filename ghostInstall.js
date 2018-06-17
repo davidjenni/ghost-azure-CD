@@ -26,8 +26,8 @@ class GhostInstall {
     }
 
     async run(ghostVersion) {
-        // TODO: for rollback, don't wipe dir but instead rename
         this._log.info(`Installing ghost into: ${this._installDir}`);
+        // TODO: for rollback, don't wipe dir but instead rename
         await fs.emptyDir(this._installDir);
         if (ghostVersion === 'latest') {
             ghostVersion = await this.getLatestGhostVersion();
