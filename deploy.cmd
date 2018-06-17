@@ -91,7 +91,7 @@ echo Handling node.js deployment.
 :: 1. robocopy
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
   :: robocopy exit code 0-7 indicate (mostly) ok copy, see https://ss64.com/nt/robocopy-exit.html
-  call :ExecuteCmd robocopy "%DEPLOYMENT_SOURCE%" "%DEPLOYMENT_TARGET%" /s /purge /xd mycontent /xd .git
+  call :ExecuteCmd robocopy "%DEPLOYMENT_SOURCE%" "%DEPLOYMENT_TARGET%" /s /purge /xd mycontent /xd .git /xd node_modules
   IF !ERRORLEVEL! GEQ 8 goto error
 )
 

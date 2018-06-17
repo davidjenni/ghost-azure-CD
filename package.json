@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Bootstrap installer for Ghost in an Azure Web App",
   "main": "install.js",
+  "engines": {
+    "node": "^8.0.0"
+  },
   "scripts": {
     "lint": "node node_modules/eslint/bin/eslint.js --quiet *.js",
     "test": "npm run lint"
