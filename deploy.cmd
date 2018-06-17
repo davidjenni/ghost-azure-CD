@@ -106,15 +106,8 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
   call :ExecuteCmd !NPM_CMD! install --production
   IF !ERRORLEVEL! NEQ 0 goto error
-  popd
-)
 
 :: GHOST-SPECIFIC
-:: 4. bootstrap Ghost CMS
-IF EXIST "%DEPLOYMENT_TARGET%\install.js" (
-  pushd "%DEPLOYMENT_TARGET%"
-  echo "NODE_EXE is %NODE_EXE%"
-  echo "NPM_CMD is  %NPM_CMD%"
   call :ExecuteCmd "!NODE_EXE!" install.js
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
@@ -127,6 +120,7 @@ goto end
 :ExecuteCmd
 setlocal
 set _CMD_=%*
+echo %_CMD_%
 call %_CMD_%
 if "%ERRORLEVEL%" NEQ "0" echo Failed exitCode=%ERRORLEVEL%, command=%_CMD_%
 exit /b %ERRORLEVEL%
