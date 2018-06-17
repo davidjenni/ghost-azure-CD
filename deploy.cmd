@@ -88,10 +88,11 @@ goto :EOF
 :Deployment
 echo Handling node.js deployment.
 
-:: 1. KuduSync
+:: 1. robocopy
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
-  call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
-  IF !ERRORLEVEL! NEQ 0 goto error
+  :: robocopy exit code 0-7 indicate (mostly) ok copy, see https://ss64.com/nt/robocopy-exit.html
+  call :ExecuteCmd robocopy "%DEPLOYMENT_SOURCE%" "%DEPLOYMENT_TARGET%" /s /purge /xd mycontent /xd .git
+  IF !ERRORLEVEL! NEQ 8 goto error
 )
 
 :: 2. Select node version
