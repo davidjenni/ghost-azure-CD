@@ -10,7 +10,8 @@ const nodeEnv = process.env.NODE_ENV;
 async function prepareGhost(repoDir, appDir, log) {
     let environments = [ 'development', 'production' ];
     if (nodeEnv && environments.indexOf(nodeEnv) < 0) {
-        environments.unshift(nodeEnv);
+        // single environment if explicitly requested via NODE_ENV
+        environments = [ nodeEnv ];
     }
 
     for (let env of environments) {

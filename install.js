@@ -1,6 +1,12 @@
 'use strict'; 
 const log = require('loglevel');
 const path = require('path');
+const yargs = require('yargs')
+    .usage('Usage: $0 [options]')
+    .option('n', { alias: 'nodeExe', default: process.execPath, description: 'path to node executable' })
+    .help('h').alias('h', 'help')
+    .version(false)
+    .argv;
 
 const thisDir = __dirname;
 const appDir = path.resolve('./app');
@@ -12,7 +18,7 @@ log.info(`nodejs env vars: NODE_ENV=${process.env.NODE_ENV}, PORT=${process.env.
 const installGhost = require('./ghostInstall');
 const prepareGhost = require('./ghostPrepare');
 
-installGhost(appDir, log)
+installGhost(appDir, yargs.node, log)
     .then(async () => prepareGhost(thisDir, appDir, log))
     .then(
         () =>

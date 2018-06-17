@@ -8,38 +8,38 @@ const util = require('util');
 const execFile = util.promisify(cproc.execFile);
 const extract = util.promisify(require('extract-zip'));
 
-async function  installGhost(installDir, log, version = 'latest') {
-    const ghostInstall = new GhostInstall(installDir, log);
-    await ghostInstall.run(version);
+async function  installGhost(installDir, nodeExe, log, ghostVersion = 'latest') {
+    const ghostInstall = new GhostInstall(installDir, nodeExe, log);
+    await ghostInstall.run(ghostVersion);
 }
 
 module.exports = installGhost;
 
 class GhostInstall {
-    constructor(installDir, log) {
+    constructor(installDir, nodeExe, log) {
         this._installDir = installDir;
         this._log = log;
-        this._nodeExe = 'node';
-        this._npmExe = 'npm';
+        this._nodeExe = nodeExe;
+        this._log.info(`node exe: ${nodeExe}`);
         this._userDownloadsDir = path.join(process.env.USERPROFILE, 'Downloads');
         fs.ensureDirSync(this._userDownloadsDir);
     }
 
-    async run(version) {
+    async run(ghostVersion) {
         // TODO: for rollback, don't wipe dir but instead rename
         this._log.info(`Installing ghost into: ${this._installDir}`);
         await fs.emptyDir(this._installDir);
-        if (version === 'latest') {
-            version = await this.getLatestGhostVersion();
-            this._log.info(`Latest ghost version on npm: ${version}`);
+        if (ghostVersion === 'latest') {
+            ghostVersion = await this.getLatestGhostVersion();
+            this._log.info(`Latest ghost version on npm: ${ghostVersion}`);
         }
-        let ghostZip = await this.downloadGhost(version);
+        let ghostZip = await this.downloadGhost(ghostVersion);
         await this.unzipGhost(ghostZip, this._installDir);
         await this.yarnInstall(this._installDir);
     }
 
     async getLatestGhostVersion() {
-        let version = await this._npm('info', 'ghost', 'dist-tags.latest');
+        let version = await this._yarn('info', '--silent', 'ghost', 'dist-tags.latest');
         return version.stdout.trim();
     }
 
@@ -78,19 +78,15 @@ class GhostInstall {
     }
 
     _node(args) {
-        return this._exec(this._nodeExe, false, args);
-    }
-
-    _npm(...args) {
-        return this._exec(this._npmExe,  true, args);
+        return this._exec(this._nodeExe, args);
     }
 
     _yarn(...args) {
         args.unshift(path.join('node_modules', 'yarn', 'bin', 'yarn.js'));
-        return this._exec(this._nodeExe,  true, args);
+        return this._exec(this._nodeExe, args);
     }
 
-    async _exec(exe, useShell, args) {
-        return execFile(exe, args, {shell: useShell});
+    async _exec(exe, args) {
+        return execFile(exe, args);
     }
 }
