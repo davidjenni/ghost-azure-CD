@@ -103,6 +103,7 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
   call :ExecuteCmd "!NPM_CMD!" install --production
   IF !ERRORLEVEL! NEQ 0 goto error
+  echo Finished npm install.
   popd
 )
 
@@ -110,8 +111,8 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
 :: 4. bootstrap Ghost CMS
 IF EXIST "%DEPLOYMENT_TARGET%\install.js" (
   pushd "%DEPLOYMENT_TARGET%"
-  echo NODE_EXE is: %NODE_EXE%
-  echo NPM_CMD is : %NPM_CMD%
+  echo "NODE_EXE is %NODE_EXE%"
+  echo "NPM_CMD is  %NPM_CMD%"
   call :ExecuteCmd "!NODE_EXE!" install.js
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
