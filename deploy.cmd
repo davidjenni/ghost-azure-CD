@@ -78,9 +78,6 @@ IF DEFINED KUDU_SELECT_NODE_VERSION_CMD (
   SET NPM_CMD=npm
   SET NODE_EXE=node
 )
-echo node version
-node --version
-
 goto :EOF
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
