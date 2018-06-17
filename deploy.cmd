@@ -98,16 +98,15 @@ IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
 :: 2. Select node version
 call :SelectNodeVersion
 
-echo NODE_EXE is %NODE_EXE%
-echo NPM_CMD is  %NPM_CMD%
-
-:: 3. Install npm packages
+:: 3. Install npm packages and launch Ghost installer:
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
+  echo NODE_EXE is %NODE_EXE%
+  echo NPM_CMD is  %NPM_CMD%
+
   call :ExecuteCmd !NPM_CMD! install --production
   IF !ERRORLEVEL! NEQ 0 goto error
 
-:: GHOST-SPECIFIC
   call :ExecuteCmd "!NODE_EXE!" install.js
   IF !ERRORLEVEL! NEQ 0 goto error
   popd

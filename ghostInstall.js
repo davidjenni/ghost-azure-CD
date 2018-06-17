@@ -21,6 +21,8 @@ class GhostInstall {
         this._log = log;
         this._nodeExe = 'node';
         this._npmExe = 'npm';
+        this._userDownloadsDir = path.join(process.env.USERPROFILE, 'Downloads');
+        fs.ensureDirSync(this._userDownloadsDir);
     }
 
     async run(version) {
@@ -43,7 +45,7 @@ class GhostInstall {
 
     async downloadGhost(version) {
         let ghostDownload = `https://github.com/TryGhost/Ghost/releases/download/${version}/Ghost-${version}.zip`;
-        let ghostZip = path.join(process.env.USERPROFILE, 'Downloads', 'ghost.zip');
+        let ghostZip = path.join(this._userDownloadsDir, 'ghost.zip');
         this._log.info(`Downloading ${ghostDownload}...`);
         let startTime = Date.now();
         let destStream = fs.createWriteStream(ghostZip);
