@@ -19,4 +19,5 @@ installGhost(appDir, log)
             log.info('Completed.'),
         (err) => {
             log.error(`Error: ${err}`);
+            process.exit(1);
         });
