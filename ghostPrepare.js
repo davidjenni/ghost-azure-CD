@@ -51,7 +51,7 @@ class GhostConfig {
         await this.ensureDbInitialized();
         await this.ensureDefaultTheme();
     }
-    
+
     async ensureContentPath() {
         let configChanged = false;
         let contentPath = this._config.paths.contentPath;
@@ -90,9 +90,15 @@ class GhostConfig {
     async ensureDbInitialized() {
         if (this._config.database.client === 'sqlite3') {
             let filename = this._config.database.connection.filename;
+            if (!filename) {
+                return;
+            }
             await fs.ensureDir(path.dirname(filename));
+            const dbStat = await fs.exists(filename) ? await fs.stat(filename) : undefined;
             // be conservative, only initialize DB if not present (don't overwrite)
-            if (filename && !fs.existsSync(filename)) {
+            // or if the DB has not been properly initialized:
+            // starting ghost w/o DB, it will create a ~30k large non-functional DB
+            if (!dbStat || dbStat.size < 200*1000) {
                 const knexModule = path.join(this._appDir, 'node_modules', 'knex-migrator');
                 const KnexMigrator = require(knexModule);
                 let knexMigrator = new KnexMigrator({
