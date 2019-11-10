@@ -1,24 +1,24 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch install script",
-            "program": "${workspaceFolder}/install.js",
-            "env": {
-                "NODE_ENV": "production"
-            }
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch ghost via loader",
-            "program": "${workspaceFolder}/_iisnodeLoader.js",
-            "env": {
-                // "NODE_ENV": "production",
-                "PORT": "2369"
-            }
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch install script",
+      "program": "${workspaceFolder}/install.js",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch ghost via IIS loader",
+      "program": "${workspaceFolder}/_iisnodeLoader.js",
+      "env": {
+        // "NODE_ENV": "production",
+        "PORT": "2369"
+      }
+    }
+  ]
 }

@@ -65,4 +65,3 @@ Using ARM template files:
 - create Web App with AppInsights
 - create CDN with custom domain in front of web app url, add TLS termination
 - create WebJobs to run DB backups and blob storage backups
-
