@@ -1,7 +1,7 @@
 extends: eslint:recommended
 parser: esprima
 parserOptions:
-  ecmaVersion: 2015
+  ecmaVersion: 2017
   sourceType: module
   ecmaFeatures:
     impliedStrict: true
@@ -15,6 +15,6 @@ rules:
 globals:
   Promise: true
 overrides:
-  files: [ '**/*.js' ]
-  # ignore ghost and content files once unzipped and bootstrapped (local dev)
-  excludedFiles: [ 'app/**/*.js', 'mycontent/**/*.js' ]
+  - files: [ '**/*.js' ]
+    # ignore ghost and content files once unzipped and bootstrapped (local dev)
+    excludedFiles: [ 'app/**/*.js', 'mycontent/**/*.js' ]

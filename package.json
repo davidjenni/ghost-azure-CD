@@ -28,14 +28,14 @@
   "homepage": "https://github.com/davidjenni/ghost-azure#readme",
   "dependencies": {
     "extract-zip": "^1.6.7",
-    "fs-extra": "^6.0.1",
-    "loglevel": "^1.6.1",
-    "request": "^2.87.0",
-    "semver": "^5.5.0",
-    "yargs": "^11.0.0",
-    "yarn": "^1.7.0"
+    "fs-extra": "^8.1.0",
+    "loglevel": "^1.6.6",
+    "request": "^2.88.0",
+    "semver": "^6.3.0",
+    "yargs": "^14.2.0",
+    "yarn": "^1.19.1"
   },
   "devDependencies": {
-    "eslint": "^4.19.1"
+    "eslint": "^6.6.0"
   }
 }

@@ -33,10 +33,9 @@ class GhostInstall {
             this._log.info(`Latest ghost version on npm: ${ghostVersion}`);
         }
         const localGhostVersion = await this.getLocalGhostVersion();
-        if (localGhostVersion &&  semver.eq(ghostVersion, localGhostVersion)) {
+        if (localGhostVersion && semver.eq(ghostVersion, localGhostVersion)) {
             this._log.info(`Requested version ${ghostVersion} is the same as already found locally.\nSkipping downloading and unzipping ghost version.`);
-        }
-        else {
+        } else {
             // TODO: for rollback, don't wipe dir but instead rename
             await fs.emptyDir(this._installDir);
             let ghostZip = await this.downloadGhost(ghostVersion);
